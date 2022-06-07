@@ -1,5 +1,22 @@
+const fs = require('fs');
 /* eslint-disable no-undef */
 const lambda = require('../src/handlers/getPdfBuffer');
+
+const successPayload = {
+    payload: {
+        template: 'purchaseOrder',
+        items: [
+            {
+                sNo: 1,
+                name: 'test product',
+                barcode: 123123,
+                supplierSku: 'test',
+                quantity: 1,
+                units: 1
+            }
+        ]
+    }
+};
 
 describe('Test getPdfBuffer lambda', () => {
     test('check if lambda exists', () => {
@@ -29,7 +46,7 @@ describe('Test getPdfBuffer lambda', () => {
     test('should throw error if table items are not provided', async () => {
         const input = {
             payload: {
-                type: 'PurchaseOrder'
+                template: 'purchaseOrder'
             }
         };
         try {
@@ -40,13 +57,26 @@ describe('Test getPdfBuffer lambda', () => {
     });
 
     test('should return 200 if complete input is provided', async () => {
-        const input = {
-            payload: {
-                type: 'PurchaseOrder',
-                items: []
-            }
-        };
-        const resp = await lambda.handler(input);
+        try {
+            const resp = await lambda.handler(successPayload);
+            expect(resp.status).toBe(200);
+        } catch (e) {
+            expect(e).toBe(null);
+        }
+    });
+
+    test('should create pdf file using returned buffer', async () => {
+        const resp = await lambda.handler(successPayload);
         expect(resp.status).toBe(200);
+        try {
+            const fileName = 'test.pdf';
+            const buffer = Buffer.from(resp.body, 'base64');
+            fs.writeFileSync(fileName, buffer);
+            const stats = fs.statSync(fileName);
+            expect(stats.size > 10000);
+            fs.unlinkSync(fileName);
+        } catch (err) {
+            expect(err).toBe(null);
+        }
     });
 });

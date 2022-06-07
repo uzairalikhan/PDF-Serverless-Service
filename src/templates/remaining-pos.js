@@ -1,26 +1,29 @@
-module.exports = function generatePO(pdfmakeInstance, payload) {
+module.exports = function generatePdf(pdfmakeInstance, payload) {
     return new Promise((resolve, reject) => {
         if (!payload.items) {
             return reject('Table items not provided');
         }
-        const headings = ['S.No', 'Item Name', 'Barode', 'Distributor Name', 'Quantity', 'Bulk Units'];
+        const headings = ['S.No', 'Item Name', 'Barode', 'Distributor SKU', 'Item Status', 'PO Quantity',
+            'Delivered Quantity', 'Remaining Quantity'];
         const tableHeadings = headings.map((data) => {
-            return { text: data, bold: true };
+            return { text: data, bold: true, fontSize: 8 };
         });
         const tableBody = [
             tableHeadings
         ];
-
         payload.items.forEach((item, i) => {
             tableBody.push(Object.values({
                 sNo: i + 1,
                 name: item.name,
                 barcode: item.barcode,
                 distributor: item.supplierSku,
-                quantity: item.units,
-                units: `${item.bulkUnits} bulks and ${item.bulkRemainder} units`
+                status: item.status,
+                units: item.units,
+                checkedInUnits: item.checkedInUnits,
+                remainingQuantity: item.remainingQuantity
             }));
         });
+
         const content = [
             {
                 image: 'src/assets/images/logo.png',
@@ -33,31 +36,15 @@ module.exports = function generatePO(pdfmakeInstance, payload) {
             { text: `PO Date: ${payload.date}`, style: 'subHeading' },
             { text: `Distributor Name: ${payload.supplierName}`, style: 'subHeading' },
             { text: `Warehouse: ${payload.warehouse}`, style: 'subHeading' },
-            { text: `Address: ${payload.warehouseAddress}`, style: 'subHeading' },
             {
                 table: {
-                    headerRows: 1,
                     heights: 20,
+                    headerRows: 1,
                     body: tableBody
                 },
             },
-            { text: `Payment in ${payload.creditDays} Days`, style: 'subHeading' },
-            { text: 'Regards,', style: { margin: [0, 25], fontSize: 20 } },
-            { text: 'Airlift Grocer', style: { margin: [0, 25], fontSize: 20 } },
-            {
-                canvas:
-                    [
-                        {
-                            type: 'line',
-                            x1: 0, y1: 10,
-                            x2: 520, y2: 10,
-                            lineWidth: 1
-                        }
-                    ]
-            },
-            { text: 'For any queries please reach out to us at:', style: 'subHeading' },
-            { text: 'supplier-support@airlifttech.com Distributor Helpline(9am till 6pm):', style: { margin: [0, 25], fontSize: 18 } },
-            { text: '04234511803', style: 'subHeading' }
+            { text: 'Regards,', margin: [0, 15], fontSize: 18 },
+            { text: 'Airlift Grocer', fontSize: 18 }
         ];
 
         const docDefinition = {
@@ -69,13 +56,16 @@ module.exports = function generatePO(pdfmakeInstance, payload) {
                 heading: {
                     fontSize: 25,
                     bold: true,
-                    margin: [0, 15]
+                    margin: [0, 10]
                 },
                 subHeading: {
-                    fontSize: 18,
+                    fontSize: 15,
                     bold: true,
                     margin: [0, 10]
                 }
+            },
+            defaultStyle: {
+                fontSize: 8
             }
         };
         resolve(pdfmakeInstance.createPdfKitDocument(docDefinition));

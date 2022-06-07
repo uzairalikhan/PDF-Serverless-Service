@@ -11,7 +11,8 @@ const fonts = {
 };
 const pdfmake = new Pdfmake(fonts);
 const pdfFunctionMap = {
-    ['PurchaseOrder']: templates.purchaseOrder
+    ['purchaseOrder']: templates.purchaseOrder,
+    ['remainingPurchaseOrder']: templates.remainingPos,
 };
 
 exports.handler = async (event) => {
@@ -24,12 +25,12 @@ exports.handler = async (event) => {
             return reject('Please provide payload');
         }
 
-        if (!event.payload.type || !pdfFunctionMap[event.payload.type]) {
+        if (!event.payload.template || !pdfFunctionMap[event.payload.template]) {
             return reject('Template does not exist');
         }
 
         try {
-            const pdfDoc = await pdfFunctionMap[event.payload.type](pdfmake, event.payload);
+            const pdfDoc = await pdfFunctionMap[event.payload.template](pdfmake, event.payload);
             pdfDoc.on('data', (chunk) => {
                 chunks.push(chunk);
             });

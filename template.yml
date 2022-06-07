@@ -2,14 +2,26 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Description: AWS Serverless Specification for pdf generation service.
 Resources:
-  PdfService:
+  PdfBuffer:
     Type: "AWS::Serverless::Function"
     Properties:
       Handler: src/handlers/getPdfBuffer.handler
       Runtime: nodejs16.x
-      FunctionName: Pdf-Service
+      FunctionName: Get-Pdf-Buffer
       CodeUri: .
       Description: "Lambda for generating pdfs"
+      MemorySize: 2048
+      Timeout: 900
+      Layers:
+      - Ref: NodeModulesLayer
+  BulkPdfZipBuffer:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: src/handlers/getBulkPdfZipBuffer.handler
+      Runtime: nodejs16.x
+      FunctionName: Get-Bulk-Pdf-Zip-Buffer
+      CodeUri: .
+      Description: "Lambda for generating bulk pdfs zip buffer"
       MemorySize: 2048
       Timeout: 900
       Layers:
