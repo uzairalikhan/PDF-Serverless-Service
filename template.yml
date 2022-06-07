@@ -6,7 +6,7 @@ Resources:
     Type: "AWS::Serverless::Function"
     Properties:
       Handler: src/handlers/getPdfBuffer.handler
-      Runtime: nodejs16.x
+      Runtime: nodejs14.x
       FunctionName: Get-Pdf-Buffer
       CodeUri: .
       Description: "Lambda for generating pdfs"
@@ -18,7 +18,7 @@ Resources:
     Type: "AWS::Serverless::Function"
     Properties:
       Handler: src/handlers/getBulkPdfZipBuffer.handler
-      Runtime: nodejs16.x
+      Runtime: nodejs14.x
       FunctionName: Get-Bulk-Pdf-Zip-Buffer
       CodeUri: .
       Description: "Lambda for generating bulk pdfs zip buffer"
@@ -33,4 +33,4 @@ Resources:
       Description: Dependencies for pdf service.
       Content: src/node_modules_layer
       CompatibleRuntimes:
-        - nodejs16.x
+        - nodejs14.x
