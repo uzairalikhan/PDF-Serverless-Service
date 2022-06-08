@@ -3,7 +3,7 @@ module.exports = function generatePdf(pdfmakeInstance, payload) {
         if (!payload.items) {
             return reject('Table items not provided');
         }
-        const headings = ['S.No', 'Item Name', 'Barode', 'Distributor SKU', 'Item Status', 'PO Quantity',
+        const headings = ['S.No', 'Item Name', 'Barcode', 'Distributor SKU', 'Item Status', 'PO Quantity',
             'Delivered Quantity', 'Remaining Quantity'];
         const tableHeadings = headings.map((data) => {
             return { text: data, bold: true, fontSize: 8 };

@@ -3,7 +3,7 @@ module.exports = function generatePO(pdfmakeInstance, payload) {
         if (!payload.items) {
             return reject('Table items not provided');
         }
-        const headings = ['S.No', 'Item Name', 'Barode', 'Distributor Name', 'Quantity', 'Bulk Units'];
+        const headings = ['S.No', 'Item Name', 'Barcode', 'Distributor Name', 'Quantity', 'Bulk Units'];
         const tableHeadings = headings.map((data) => {
             return { text: data, bold: true };
         });
