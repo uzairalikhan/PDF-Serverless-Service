@@ -6,6 +6,5 @@ stack_name = "pdf-service"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-xsysu2pmpujm"
 s3_prefix = "pdf-service"
 region = "ap-southeast-1"
-confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 disable_rollback = false
