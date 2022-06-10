@@ -5,19 +5,48 @@ on:
   pull_request:
     branches: [master]
 jobs:
-  build:
+  Lint:
+    name: Lint
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup NodeJs
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i
-      - run: npm i src/node_modules_layer/nodejs/
+      - run: npm i && cd src/node_modules_layer/nodejs && npm i && cd ../../../
       - run: npm run lint
+  Build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm i && cd src/node_modules_layer/nodejs && npm i && cd ../../../
       - run: npm run build
+  Tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm i && cd src/node_modules_layer/nodejs && npm i && cd ../../../
       - run: npm run test
