@@ -2,7 +2,9 @@ const fs = require('fs');
 const jsZip = require('jszip');
 /* eslint-disable no-undef */
 const lambda = require('../src/handlers/getBulkPdfZipBuffer');
-
+jest.mock('../src/utils/s3');
+const s3 = require('../src/utils/s3');
+s3.mockImplementation(() => { return { Body: '<Buffer ff d8 ff e0 00 10 4a 46>' }; });
 const successPayload = {
     payload: {
         template: 'purchaseOrder',

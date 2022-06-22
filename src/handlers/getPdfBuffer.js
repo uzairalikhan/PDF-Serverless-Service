@@ -1,19 +1,8 @@
 const Pdfmake = require('pdfmake');
-const templates = require('../templates');
+const fonts = require('../constants/fonts');
+const pdfFunctionMap = require('../constants/pdfFunctionsMap');
 
-const fonts = {
-    Roboto: {
-        normal: 'src/assets/fonts/Roboto/Roboto-Regular.ttf',
-        bold: 'src/assets/fonts/Roboto/Roboto-Medium.ttf',
-        italics: 'src/assets/fonts/Roboto/Roboto-Italic.ttf',
-        bolditalics: 'src/assets/fonts/Roboto/Roboto-MediumItalic.ttf'
-    }
-};
 const pdfmake = new Pdfmake(fonts);
-const pdfFunctionMap = {
-    ['purchaseOrder']: templates.purchaseOrder,
-    ['remainingPurchaseOrder']: templates.remainingPos,
-};
 
 exports.handler = async (event) => {
     // eslint-disable-next-line no-async-promise-executor
