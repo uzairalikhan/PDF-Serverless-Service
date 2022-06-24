@@ -88,9 +88,9 @@ module.exports = function generatePOGRN(pdfmakeInstance, payload) {
             { text: `Total Price: ${Number(payload.amount).toFixed(2)}`, margin: [0, 10], style: 'additionalDetails' },
             { text: `Delivery Charges: ${payload.deliveryCharges}`, margin: [0, 5], style: 'additionalDetails' },
             { text: `Sales Tax: ${payload.salesTax} ${payload.currencyCode}`, margin: [0, 5], style: 'additionalDetails' },
-            { text: `Advance Income Tax: ${payload.advanceIncomeTax || ''}`, margin: [0, 5], style: 'additionalDetails' },
-            { text: `Discount: ${payload.discount || ''}`, margin: [0, 5], style: 'additionalDetails' },
-            { text: `Promotion: ${payload.promotion || ''}`, margin: [0, 5], style: 'additionalDetails' },
+            { text: `Advance Income Tax: ${payload.advanceIncomeTax}`, margin: [0, 5], style: 'additionalDetails' },
+            { text: `Discount: ${payload.discount}`, margin: [0, 5], style: 'additionalDetails' },
+            { text: `Promotion: ${payload.promotion}`, margin: [0, 5], style: 'additionalDetails' },
             { text: `Total: ${Number(payload.total).toFixed(2)}`, margin: [0, 5], style: 'additionalDetails' },
         ];
         if (payload.deliveryChargesComments && payload.deliveryChargesComments.length > 0) {

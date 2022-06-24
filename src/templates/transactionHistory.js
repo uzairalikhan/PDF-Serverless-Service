@@ -34,7 +34,7 @@ module.exports = function generateTransactionHistoryPDF(pdfmakeInstance, payload
                 margin: [0, 0, 0, 20]
             },
             { text: 'Airlift Grocer', style: { color: '#db2032', alignment: 'center', margin: [0, 50, 0, 50], fontSize: 12 } },
-            { text: `Distributor: ${payload.supplierName}`, style: { color: '#db2032', alignment: 'center', fontSize: 12 } },
+            { text: `Distributor: ${payload.supplierName || ''}`, style: { color: '#db2032', alignment: 'center', fontSize: 12 } },
             {
                 layout: {
                     hLineWidth: function () {
