@@ -5,14 +5,19 @@ const lambda = require('../src/handlers/getPdfBuffer');
 const successPayload = {
     payload: {
         template: 'purchaseOrder',
+        totalPrice: 100,
         items: [
             {
-                sNo: 1,
+                productId: 1,
                 name: 'test product',
                 barcode: 123123,
                 supplierSku: 'test',
                 quantity: 1,
-                units: 1
+                units: 1,
+                subCategoryId: ' - ',
+                bulkQuantity: 1,
+                unitPrice: 10,
+                totalPrice: 100
             }
         ]
     }
